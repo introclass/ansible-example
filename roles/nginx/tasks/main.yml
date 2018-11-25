@@ -1,0 +1,37 @@
+- name: install pkgs
+  yum: 
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - nginx
+
+- name: nginx is running
+  systemd:
+    name: nginx
+    state: started
+    daemon_reload: yes
+
+- name: create directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ nginx_config_path }}"
+    - "{{ nginx_script_path }}"
+
+- name: upload template config
+  notify: reload nginx
+  template: 
+    src: "{{ item }}.j2"      
+    dest: "{{ nginx_config_path }}/{{ item }}"
+  with_items:
+  - hello.com.conf
+
+- name: upload files 
+  copy:
+    src: "{{ item }}"
+    dest: "{{ nginx_script_path }}/{{ item }}"
+    mode: u=rwx
+  with_items:
+  - start.sh
+  - stop.sh

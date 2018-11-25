@@ -1,0 +1,6 @@
+server {
+	listen {{ port }};
+	location / {
+		proxy_pass https://www.baidu.com ;
+	}
+}

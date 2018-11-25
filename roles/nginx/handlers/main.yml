@@ -1,0 +1,15 @@
+- name: handler restart nginx
+  listen: 
+  - "restart nginx"
+  systemd:
+    name: nginx
+    state: restarted
+    daemon_reload: yes
+
+- name: handler reload nginx
+  listen: 
+  - "reload nginx"
+  systemd:
+    name: nginx
+    state: reloaded
+    daemon_reload: yes

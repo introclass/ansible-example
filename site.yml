@@ -1,0 +1,6 @@
+- hosts: machines
+  become: true
+  become_user: root
+  remote_user: root
+  roles:
+    - nginx
